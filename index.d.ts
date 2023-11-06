@@ -85,6 +85,16 @@ interface ObjectConstructor {
 	 * Searches recursively.
 	 */
 	deepEquals(this: void, a: object, b: object): boolean;
+
+// 	 Merges two deeply nested tables.  Table 1 all values are kept and only
+//  Overwritten by table 2 if overwrite is set to true.  Otherwise only new
+//  Values from Table 2 are added
+	deepMerge<T extends object, L extends object>(this: void, a: T, b: L): T & L;
+
+
+	// Flattens nested object into ordered array of values
+	// Flat_tbl is an option array that can have the values apended to
+	flatten<T extends object>(this: void, o: T, flat_tbl?: Array<any>): Array<any>;
 }
 
 declare const Object: ObjectConstructor;

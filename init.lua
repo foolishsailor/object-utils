@@ -94,6 +94,36 @@ function Object.deepEquals(a, b)
 	return true
 end
 
+function Object.deepMerge(t1, t2, overwrite)
+	for k, v in pairs(t2) do
+		if type(v) == "table" then
+			if type(t1[k]) ~= "table" then
+				t1[k] = {}
+			end
+			Object.deepMerge(t1[k], v, overwrite)
+		else
+			if t1[k] == nil or overwrite then
+				t1[k] = v
+			end
+		end
+	end
+	return t1
+end
+
+--Flattens nested object into ordered array of values
+--Flat_tbl is an option array that can have the values apended to
+function Object.flatten(tbl, flat_tbl)
+	flat_tbl = flat_tbl or {}
+	for key, value in pairs(tbl) do
+		if type(value) == "table" then
+			Object.flatten(value, flat_tbl)
+		else
+			flat_tbl[#flat_tbl + 1] = value
+		end
+	end
+	return flat_tbl
+end
+
 function Object.toString(data)
 	return HttpService:JSONEncode(data)
 end
